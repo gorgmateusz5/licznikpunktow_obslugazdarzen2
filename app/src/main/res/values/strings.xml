@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">licznikpunktow_obslugazdarzen</string>
+    <string name="app_name">Licznik punktów</string>
+    <string name="title">Licznik punktów</string>
+    <string name="team_a">Drużyna A</string>
+    <string name="team_b">Drużyna B</string>
+
+    <string name="add_one">+1</string>
+    <string name="add_two">+2</string>
+    <string name="add_three">+3</string>
+    <string name="subtract_one">−1</string>
+    <string name="reset">Reset</string>
+
+    <string name="negative_score_error">Wynik nie może być mniejszy od zera.</string>
+    <string name="reset_message">Wyniki wyzerowane.</string>
 </resources>
