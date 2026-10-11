@@ -1,3 +1,4 @@
+
 package com.example.licznikpunktow_obslugazdarzen;
 
 import android.os.Bundle;
@@ -7,13 +8,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
-
-    private TextView tvScoreA;
-    private TextView tvScoreB;
+public class MainActivity extends AppCompatActivity
+        implements View.OnClickListener {
 
     private int scoreA = 0;
     private int scoreB = 0;
+
+    private TextView tvScoreA;
+    private TextView tvScoreB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,49 +25,53 @@ public class MainActivity extends AppCompatActivity {
         tvScoreA = findViewById(R.id.tvScoreA);
         tvScoreB = findViewById(R.id.tvScoreB);
 
-        View.OnClickListener scoreListener =
-                v -> handleScoreClick(v);
+        // Jeden listener obsługuje przyciski obu drużyn.
+        findViewById(R.id.btnA1).setOnClickListener(this);
+        findViewById(R.id.btnA2).setOnClickListener(this);
+        findViewById(R.id.btnA3).setOnClickListener(this);
+        findViewById(R.id.btnAMinus).setOnClickListener(this);
 
-        int[] scoreButtonIds = {
-                R.id.btnA1,
-                R.id.btnA2,
-                R.id.btnA3,
-                R.id.btnAMinus,
-                R.id.btnB1,
-                R.id.btnB2,
-                R.id.btnB3,
-                R.id.btnBMinus
-        };
+        findViewById(R.id.btnB1).setOnClickListener(this);
+        findViewById(R.id.btnB2).setOnClickListener(this);
+        findViewById(R.id.btnB3).setOnClickListener(this);
+        findViewById(R.id.btnBMinus).setOnClickListener(this);
 
-        for (int id : scoreButtonIds) {
-            findViewById(id).setOnClickListener(scoreListener);
-        }
-
-        findViewById(R.id.btnReset)
-                .setOnClickListener(v -> resetScores());
+        findViewById(R.id.btnReset).setOnClickListener(this);
 
         updateScores();
     }
 
-    private void handleScoreClick(View v) {
-        boolean teamA =
-                v.getId() == R.id.btnA1
-                        || v.getId() == R.id.btnA2
-                        || v.getId() == R.id.btnA3
-                        || v.getId() == R.id.btnAMinus;
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
 
-        int change;
+        if (id == R.id.btnReset) {
+            resetScores();
+            return;
+        }
 
-        if (v.getId() == R.id.btnA1
-                || v.getId() == R.id.btnB1) {
+        int change = 0;
+        boolean teamA = false;
+
+        if (id == R.id.btnA1) {
             change = 1;
-        } else if (v.getId() == R.id.btnA2
-                || v.getId() == R.id.btnB2) {
+            teamA = true;
+        } else if (id == R.id.btnA2) {
             change = 2;
-        } else if (v.getId() == R.id.btnA3
-                || v.getId() == R.id.btnB3) {
+            teamA = true;
+        } else if (id == R.id.btnA3) {
             change = 3;
-        } else {
+            teamA = true;
+        } else if (id == R.id.btnAMinus) {
+            change = -1;
+            teamA = true;
+        } else if (id == R.id.btnB1) {
+            change = 1;
+        } else if (id == R.id.btnB2) {
+            change = 2;
+        } else if (id == R.id.btnB3) {
+            change = 3;
+        } else if (id == R.id.btnBMinus) {
             change = -1;
         }
 
@@ -74,14 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 showNegativeScoreError();
                 return;
             }
-
             scoreA += change;
         } else {
             if (scoreB + change < 0) {
                 showNegativeScoreError();
                 return;
             }
-
             scoreB += change;
         }
 
@@ -93,18 +97,9 @@ public class MainActivity extends AppCompatActivity {
         tvScoreB.setText(String.valueOf(scoreB));
     }
 
-    private void showNegativeScoreError() {
-        Toast.makeText(
-                this,
-                R.string.negative_score_error,
-                Toast.LENGTH_SHORT
-        ).show();
-    }
-
     private void resetScores() {
         scoreA = 0;
         scoreB = 0;
-
         updateScores();
 
         Toast.makeText(
@@ -113,4 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT
         ).show();
     }
+
+    private void showNegativeScoreError() {
+        Toast.makeText(
+                this,
+                R.string.negative_score_error,
+                Toast.LENGTH_SHORT
+        ).show();
+    }
 }
+
